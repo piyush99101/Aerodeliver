@@ -1,10 +1,19 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useData } from '../../services/DataContext';
 
+// 1. Tell Next.js not to pre-render this page as static HTML
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+
 const MyOrders: React.FC = () => {
-  const { orders, loading } = useData();
+  // 2. Wrap in a try-catch or ensure useData handles undefined context
+  const context = useData();
+  
+  // Safety check for the build process
+  const orders = context?.orders || [];
+  const loading = context?.loading || false;
+  
   const navigate = useNavigate();
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
@@ -25,7 +34,6 @@ const MyOrders: React.FC = () => {
   };
 
   const handleReorder = (order: any) => {
-    // Navigate to BookDelivery with pre-filled data
     navigate('/customer/book', {
       state: {
         reorderData: {
@@ -108,14 +116,13 @@ const MyOrders: React.FC = () => {
             <div key={order.id} className="glass-card rounded-2xl p-5 md:p-6 hover:shadow-lg transition-transform transform hover:-translate-y-1">
               <div className="flex flex-col md:flex-row gap-4 items-start">
 
-                {/* Left - Icon & ID (fixed width) */}
                 <div className="w-full md:w-56 flex-shrink-0 flex items-center gap-3">
                   <div className="flex items-center gap-3">
                     {order.status === 'delivered' ? (
                       <>
-                        <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg relative" aria-hidden>
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg relative">
                           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400 to-green-600" />
-                          <svg className="w-6 h-6 text-white relative" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                          <svg className="w-6 h-6 text-white relative" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </div>
@@ -140,7 +147,6 @@ const MyOrders: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Middle - Details (flexible) */}
                 <div className="flex-1 w-full">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <div className="glass-card p-3 rounded-lg flex items-start gap-3">
@@ -183,7 +189,6 @@ const MyOrders: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Right - Actions & Status */}
                 <div className="w-full md:w-48 flex flex-col items-stretch gap-3 md:items-end">
                   <div className="w-full md:w-auto">
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${order.status === 'pending' ? 'bg-orange-100 text-orange-700' : order.status === 'in-transit' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
