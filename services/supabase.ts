@@ -1,22 +1,37 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Fallback logic to check both Next.js and Vite style variables
-const supabaseUrl = 
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 
-  process.env.VITE_SUPABASE_URL || 
-  (typeof window !== 'undefined' ? (window as any)._env_?.VITE_SUPABASE_URL : "");
+/**
+ * Robust environment variable fetcher
+ * Works in Next.js (Node), Vite, and Browser environments.
+ */
+const getEnv = (key: string): string => {
+  // Check process.env (Next.js / Node)
+  if (typeof process !== 'undefined' && process.env[key]) {
+    return process.env[key] as string;
+  }
+  // Check import.meta.env (Vite)
+  try {
+    // @ts-ignore
+    if (import.meta.env && import.meta.env[key]) {
+      // @ts-ignore
+      return import.meta.env[key];
+    }
+  } catch (e) {
+    // Silent catch for environments where import.meta is not defined
+  }
+  return "";
+};
 
-const supabaseAnonKey = 
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 
-  process.env.VITE_SUPABASE_ANON_KEY || 
-  (typeof window !== 'undefined' ? (window as any)._env_?.VITE_SUPABASE_ANON_KEY : "");
+const supabaseUrl = getEnv('NEXT_PUBLIC_SUPABASE_URL') || getEnv('VITE_SUPABASE_URL');
+const supabaseAnonKey = getEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') || getEnv('VITE_SUPABASE_ANON_KEY');
 
-// Provide a default string to prevent createClient from throwing an error during build
+// Use placeholders to prevent build-time crashes. 
+// Render will provide the real values to the running container.
 export const supabase = createClient(
   supabaseUrl || "https://placeholder-url.supabase.co", 
   supabaseAnonKey || "placeholder-key"
 );
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Supabase credentials not found. Ensure Environment Variables are set in Render.');
+  console.warn('⚠️ Supabase credentials not found. Check Render Environment variables.');
 }
