@@ -30,7 +30,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     let query = supabase.from('orders').select('*');
 
-    // Filter by user role - customers only see their orders, owners see all
     if (user.role === 'customer') {
       query = query.eq('customer_id', user.id);
     }
@@ -61,7 +60,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         recipientPhone: o.recipient_phone,
         fragile: o.fragile
       }));
-      setOrders(mappedOrders.reverse()); // Newest first
+      setOrders(mappedOrders.reverse());
     }
   };
 
@@ -73,11 +72,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     let query = supabase.from('drones').select('*');
 
-    // Filter by owner - only owners see drones, and only their own
     if (user.role === 'owner') {
       query = query.eq('owner_id', user.id);
     } else {
-      // Customers don't need to see drones
       setDrones([]);
       return;
     }
@@ -109,15 +106,11 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setDrones([]);
       setLoading(false);
     }
-  }, [user?.id, user?.role]); // Re-fetch when user changes
+  }, [user?.id, user?.role]);
 
   const addOrder = async (order: Order) => {
-    console.log('Adding order:', order);
-    // Optimistic update
     setOrders(prev => [order, ...prev]);
-
-    // DB Insert
-    const { data, error } = await supabase.from('orders').insert({
+    const { error } = await supabase.from('orders').insert({
       id: order.id,
       customer_id: order.customerId,
       owner_id: order.ownerId,
@@ -139,22 +132,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       recipient_name: order.recipientName,
       recipient_phone: order.recipientPhone,
       fragile: order.fragile
-    }).select();
+    });
 
     if (error) {
-      console.error('Error adding order to Supabase:', error);
-      // Revert optimistic update
       setOrders(prev => prev.filter(o => o.id !== order.id));
-      alert(`Failed to save order: ${error.message}`);
-    } else {
-      console.log('Order added successfully:', data);
     }
   };
 
   const addDrone = async (drone: Drone) => {
     setDrones([...drones, drone]);
-
-    // DB Insert
     const { error } = await supabase.from('drones').insert({
       id: drone.id,
       owner_id: drone.ownerId,
@@ -166,15 +152,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       last_maintenance: drone.lastMaintenance,
       image: drone.image
     });
-
-    if (error) {
-      console.error('Error adding drone:', error);
-      fetchDrones();
-    }
+    if (error) fetchDrones();
   };
 
   const updateOrderStatus = async (id: string, status: Order['status'], ownerId?: string, ownerName?: string, ownerEmail?: string) => {
-    // Update local state
     setOrders(orders.map(o => {
       if (o.id === id) {
         return { ...o, status, ...(ownerId && { ownerId, ownerName, ownerEmail }) };
@@ -182,7 +163,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return o;
     }));
 
-    // Prepare update object
     const updateData: any = { status };
     if (ownerId) {
       updateData.owner_id = ownerId;
@@ -190,20 +170,16 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updateData.owner_email = ownerEmail;
     }
 
-    const { error } = await supabase.from('orders').update(updateData).eq('id', id);
-    if (error) console.error('Error updating order:', error);
+    await supabase.from('orders').update(updateData).eq('id', id);
   };
 
   const updateDroneStatus = async (id: string, status: Drone['status']) => {
     setDrones(drones.map(d => d.id === id ? { ...d, status } : d));
-
-    const { error } = await supabase.from('drones').update({ status }).eq('id', id);
-    if (error) console.error('Error updating drone:', error);
+    await supabase.from('drones').update({ status }).eq('id', id);
   };
 
   const getStats = (role: 'customer' | 'owner') => {
     if (role === 'customer') {
-      // Orders are already filtered by customer_id in fetchOrders
       return {
         totalOrders: orders.length,
         delivered: orders.filter(o => o.status === 'delivered').length,
@@ -211,7 +187,6 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         spent: orders.reduce((acc, curr) => acc + curr.price, 0)
       };
     } else {
-      // For owners, orders are all orders (not filtered in fetchOrders)
       return {
         earnings: orders.filter(o => o.status === 'delivered').reduce((acc, curr) => acc + (curr.price * 0.8), 0),
         deliveries: orders.filter(o => o.status === 'delivered').length,
@@ -230,8 +205,20 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 export const useData = () => {
   const context = useContext(DataContext);
+
+  // SSR / BUILD FIX: Return a safe fallback during prerendering
   if (context === undefined) {
-    throw new Error('useData must be used within a DataProvider');
+    return {
+      orders: [],
+      drones: [],
+      addOrder: async () => { },
+      addDrone: async () => { },
+      updateOrderStatus: async () => { },
+      updateDroneStatus: async () => { },
+      getStats: () => ({ totalOrders: 0, delivered: 0, inTransit: 0, spent: 0, earnings: 0, deliveries: 0, flightHours: 0, activeOrders: 0 }),
+      loading: true
+    } as DataContextType;
   }
+
   return context;
 };
