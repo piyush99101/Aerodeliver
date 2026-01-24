@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './services/AuthContext';
 import { DataProvider } from './services/DataContext';
@@ -29,10 +29,7 @@ const ProtectedRoute = ({ children, allowedRole }: { children: React.ReactNode, 
   const { user, loading } = useAuth();
 
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  if (!user) return <Navigate to="/login" replace />;
 
   if (allowedRole && user.role !== allowedRole) {
     return <Navigate to={user.role === 'customer' ? '/customer/dashboard' : '/owner/dashboard'} replace />;
@@ -42,28 +39,28 @@ const ProtectedRoute = ({ children, allowedRole }: { children: React.ReactNode, 
 };
 
 const AppContent: React.FC = () => {
-  const { loading, user } = useAuth();
-  const [showStartup, setShowStartup] = React.useState(false);
+  const { user } = useAuth();
+  const [showStartup, setShowStartup] = useState(false);
+  const [isAuthRedirect, setIsAuthRedirect] = useState(false);
 
-  React.useEffect(() => {
-    const hasVisited = sessionStorage.getItem('hasVisited');
-    if (!hasVisited) {
-      setShowStartup(true);
-      sessionStorage.setItem('hasVisited', 'true');
+  useEffect(() => {
+    // Only run this in the browser
+    if (typeof window !== 'undefined') {
+      const hasVisited = sessionStorage.getItem('hasVisited');
+      if (!hasVisited) {
+        setShowStartup(true);
+        sessionStorage.setItem('hasVisited', 'true');
+      }
+
+      const redirecting = window.location.hash.includes('access_token=') || 
+                          window.location.hash.includes('recovery_token=') || 
+                          window.location.href.includes('access_token=');
+      setIsAuthRedirect(redirecting);
     }
   }, []);
 
-  const handleAnimationComplete = () => {
-    setShowStartup(false);
-  };
+  const handleAnimationComplete = () => setShowStartup(false);
 
-  // Check if we are in the middle of a Supabase OAuth redirect
-  const isAuthRedirect = window.location.hash.includes('access_token=') ||
-    window.location.hash.includes('recovery_token=') ||
-    window.location.href.includes('access_token=');
-
-  // If we are redirecting and DON'T have a user yet, show the "Completing" screen
-  // But we MUST render this INSIDE AuthProvider so Supabase can work!
   if (isAuthRedirect && !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-400 to-blue-600">
@@ -120,15 +117,6 @@ const AppContent: React.FC = () => {
                 <Route path="profile" element={<OwnerProfile />} />
                 <Route path="*" element={<Navigate to="dashboard" replace />} />
               </Routes>
-            </Layout>
-          </ProtectedRoute>
-        } />
-
-        {/* Shared Routes */}
-        <Route path="/track/:orderId" element={
-          <ProtectedRoute>
-            <Layout type="customer">
-              <TrackPackage />
             </Layout>
           </ProtectedRoute>
         } />
