@@ -16,7 +16,7 @@
 
     "@emailjs/browser": "^4.4.1",
     "@supabase/supabase-js": "^2.88.0",
-    "framer-motion": "^10.18.0",
+    "framer-motion": "10.18.0",
 
     "leaflet": "^1.9.4",
     "react-leaflet": "^4.2.1",
