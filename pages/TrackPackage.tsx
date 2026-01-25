@@ -579,3 +579,5 @@ const TrackPackage: React.FC = () => {
     </div>
   );
 };
+
+export default TrackPackage;
