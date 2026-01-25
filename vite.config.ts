@@ -9,6 +9,10 @@ export default defineConfig(({ mode }) => {
         port: 3000,
         host: '0.0.0.0',
       },
+      // Add this section here
+      preview: {
+        allowedHosts: ['aerodeliver-production.up.railway.app']
+      },
       plugins: [react()],
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
