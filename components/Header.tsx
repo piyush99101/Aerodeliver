@@ -59,7 +59,7 @@ const Header: React.FC = () => {
                         <motion.div
                             animate={{ scale: [1, 1.05, 1] }}
                             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                            className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-blue-600/90 text-white shadow-md border border-white/20 ml-1 md:ml-2"
+                            className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-blue-600/90 text-white shadow-md border border-white/20 ml-1 md:ml-2"
                         >
                             <span className="relative flex h-1.5 w-1.5 md:h-2 md:w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
