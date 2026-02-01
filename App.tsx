@@ -54,9 +54,14 @@ const AppContent: React.FC = () => {
 
     // 2. Browser-only logic for startup animation and tokens
     if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768;
       const hasVisited = sessionStorage.getItem('hasVisited');
-      if (!hasVisited) {
+
+      if (!hasVisited && !isMobile) {
         setShowStartup(true);
+        sessionStorage.setItem('hasVisited', 'true');
+      } else if (isMobile) {
+        // Mark as visited so it doesn't show even if they rotate to desktop
         sessionStorage.setItem('hasVisited', 'true');
       }
 

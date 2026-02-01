@@ -136,7 +136,7 @@ const LandingPage: React.FC = () => {
         const mobileYOffset = isMobile ? -0.8 : 0;
         // Very subtle hover effect (much slower) + mobile offset
         droneGroupRef.current.position.y = Math.sin(time * 0.5) * 0.05 + mobileYOffset;
-        droneGroupRef.current.position.x = isMobile ? 0.0 : -1.0;
+        droneGroupRef.current.position.x = isMobile ? 0.0 : 2.2;
         droneGroupRef.current.position.z = 0;
         // Very subtle rotation
         droneGroupRef.current.rotation.z = Math.sin(time * 0.3) * 0.01;
@@ -372,8 +372,11 @@ const LandingPage: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="col-span-1 md:col-span-9 relative h-[400px] md:h-[600px] flex items-center justify-center order-1 md:order-2 z-20">
-              <div ref={mountRef} className="relative w-full h-full flex items-center justify-center cursor-move"></div>
+            <div className="col-span-1 md:col-span-9 relative h-[450px] md:h-[700px] flex items-center justify-center order-1 md:order-2 z-20">
+              <div
+                ref={mountRef}
+                className="absolute md:w-[140%] h-full flex items-center justify-center cursor-move md:-right-[20%]"
+              ></div>
             </div>
           </div>
         </div>
