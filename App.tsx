@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './services/AuthContext';
 import { DataProvider } from './services/DataContext';
 
@@ -49,33 +49,18 @@ const AppContent: React.FC = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // 1. Mark as mounted to signal we are in the browser
     setMounted(true);
 
-    // 2. Browser-only logic for startup animation and tokens
     if (typeof window !== 'undefined') {
-      const isMobile = window.innerWidth < 768;
-      const hasVisited = sessionStorage.getItem('hasVisited');
-
-      // Startup animation temporarily disabled
-      /*
-      if (!hasVisited && !isMobile) {
-        setShowStartup(true);
-        sessionStorage.setItem('hasVisited', 'true');
-      } else if (isMobile) {
-        // Mark as visited so it doesn't show even if they rotate to desktop
-        sessionStorage.setItem('hasVisited', 'true');
-      }
-      */
-
-      const redirecting = window.location.hash.includes('access_token=') ||
-        window.location.hash.includes('recovery_token=') ||
+      const redirecting =
+        window.location.search.includes('access_token=') ||
+        window.location.search.includes('recovery_token=') ||
         window.location.href.includes('access_token=');
+
       setIsAuthRedirect(redirecting);
     }
   }, []);
 
-  // Prevent Prerendering Error: Return nothing until mounted in browser
   if (!mounted) return null;
 
   const handleAnimationComplete = () => setShowStartup(false);
@@ -146,13 +131,13 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AuthProvider>
         <DataProvider>
           <AppContent />
         </DataProvider>
       </AuthProvider>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
