@@ -422,10 +422,7 @@ const TrackPackage: React.FC = () => {
           </div>
 
           {/* Telemetry Data Cards (OwnerDashboard StatCard style) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            <StatCard icon="fa-arrow-up" colorFrom="from-sky-400" colorTo="to-cyan-400" value={`${telemetry.alt.toFixed(1)} m`} label="Altitude" />
-            <StatCard icon="fa-tachometer-alt" colorFrom="from-emerald-400" colorTo="to-emerald-600" value={`${telemetry.speed.toFixed(0)} km/h`} label="Speed" />
-            <StatCard icon="fa-battery-three-quarters" colorFrom="from-amber-400" colorTo="to-orange-500" value={`${Math.round(telemetry.battery)}%`} label="Battery" trend={telemetry.battery < 30 ? '- Low' : undefined} />
+          <div className="grid grid-cols-1 sm:grid-cols-1 gap-3 sm:gap-4 max-w-sm mx-auto">
             <StatCard icon="fa-signal" colorFrom="from-purple-400" colorTo="to-purple-600" value="Strong" label="Signal" />
           </div>
         </div>

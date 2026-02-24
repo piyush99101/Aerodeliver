@@ -57,6 +57,8 @@ const AppContent: React.FC = () => {
       const isMobile = window.innerWidth < 768;
       const hasVisited = sessionStorage.getItem('hasVisited');
 
+      // Startup animation temporarily disabled
+      /*
       if (!hasVisited && !isMobile) {
         setShowStartup(true);
         sessionStorage.setItem('hasVisited', 'true');
@@ -64,6 +66,7 @@ const AppContent: React.FC = () => {
         // Mark as visited so it doesn't show even if they rotate to desktop
         sessionStorage.setItem('hasVisited', 'true');
       }
+      */
 
       const redirecting = window.location.hash.includes('access_token=') ||
         window.location.hash.includes('recovery_token=') ||
