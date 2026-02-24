@@ -156,7 +156,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateOrderStatus = async (id: string, status: Order['status'], ownerId?: string, ownerName?: string, ownerEmail?: string) => {
-    setOrders(orders.map(o => {
+    setOrders(prev => prev.map(o => {
       if (o.id === id) {
         return { ...o, status, ...(ownerId && { ownerId, ownerName, ownerEmail }) };
       }
