@@ -156,6 +156,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateOrderStatus = async (id: string, status: Order['status'], ownerId?: string, ownerName?: string, ownerEmail?: string) => {
+    console.log('Updating order status:', { id, status });
     setOrders(prev => prev.map(o => {
       if (o.id === id) {
         return { ...o, status, ...(ownerId && { ownerId, ownerName, ownerEmail }) };
@@ -170,7 +171,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       updateData.owner_email = ownerEmail;
     }
 
-    await supabase.from('orders').update(updateData).eq('id', id);
+    const { error } = await supabase.from('orders').update(updateData).eq('id', id);
+    if (error) {
+      console.error('Error updating order status:', error);
+    } else {
+      console.log('Order status updated successfully in Supabase');
+    }
   };
 
   const updateDroneStatus = async (id: string, status: Drone['status']) => {
