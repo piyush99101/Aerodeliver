@@ -396,48 +396,57 @@ const TrackPackage: React.FC = () => {
               <h3 className="text-base sm:text-lg font-bold text-white">Delivery Details</h3>
             </div>
 
-            <div className="space-y-3 sm:space-y-4">
-              <div className="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-white/[0.03] hover:bg-white/[0.06] rounded-lg border border-white/8 hover:border-white/16 transition-all group cursor-pointer">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg relative flex items-center justify-center shadow-lg flex-shrink-0">
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600" />
-                  <div className="relative text-white text-base sm:text-lg"><i className="fas fa-box"></i></div>
+            <div className="space-y-4 sm:space-y-5">
+              <div className="flex gap-4 p-4 bg-slate-900/40 hover:bg-slate-900/60 rounded-2xl border border-white/10 hover:border-blue-500/30 transition-all group backdrop-blur-xl">
+                <div className="w-12 h-12 rounded-xl relative flex items-center justify-center shadow-lg shadow-blue-500/20 flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 opacity-90" />
+                  <div className="relative text-white text-xl"><i className="fas fa-box"></i></div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[10px] sm:text-xs text-gray-300 uppercase font-semibold tracking-wide">Package</div>
-                  <div className="font-semibold text-white text-sm sm:text-base mt-1 break-words">{order.item}</div>
-                  <div className="text-[11px] sm:text-[12px] text-gray-400 mt-1.5 sm:mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2"><i className="fas fa-shield text-amber-400 text-[10px] sm:text-xs"></i><span className="text-amber-300 font-medium">Fragile</span> • <span className="text-cyan-300">Small Package</span></div>
+                  <div className="text-[10px] text-blue-300 font-black tracking-[0.2em] uppercase">Package</div>
+                  <div className="font-black text-white text-base mt-1 break-words italic uppercase tracking-tight">{order.item}</div>
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-[10px] text-amber-400 font-bold uppercase tracking-wider">Fragile</span>
+                    <span className="px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-[10px] text-cyan-400 font-bold uppercase tracking-wider">Small</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-white/[0.03] hover:bg-white/[0.06] rounded-lg border border-white/8 hover:border-white/16 transition-all group cursor-pointer">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg relative flex items-center justify-center shadow-lg flex-shrink-0">
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-red-500 to-pink-500" />
-                  <div className="relative text-white text-base sm:text-lg"><i className="fas fa-map-marker-alt"></i></div>
+              <div className="flex gap-4 p-4 bg-slate-900/40 hover:bg-slate-900/60 rounded-2xl border border-white/10 hover:border-blue-500/30 transition-all group backdrop-blur-xl">
+                <div className="w-12 h-12 rounded-xl relative flex items-center justify-center shadow-lg shadow-red-500/20 flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-rose-400 via-red-500 to-pink-600 opacity-90" />
+                  <div className="relative text-white text-xl"><i className="fas fa-map-marker-alt"></i></div>
                 </div>
-                <div className="overflow-hidden flex-1 min-w-0">
-                  <div className="text-[10px] sm:text-xs text-gray-300 uppercase font-semibold tracking-wide">From</div>
-                  <div className="font-semibold text-white text-sm sm:text-base mt-1 truncate">{order.pickup}</div>
-                  <div className="text-[11px] sm:text-[12px] text-gray-400 mt-1.5 sm:mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2"><i className="fas fa-clock text-orange-400 text-[10px] sm:text-xs"></i><span className="text-amber-300 font-medium">Pickup</span> <span className="text-cyan-300">at {safeTime(order.date)}</span></div>
-                </div>
-              </div>
-
-              <div className="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-white/[0.03] hover:bg-white/[0.06] rounded-lg border border-white/8 hover:border-white/16 transition-all group cursor-pointer">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg relative flex items-center justify-center shadow-lg flex-shrink-0">
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600" />
-                  <div className="relative text-white text-base sm:text-lg"><i className="fas fa-flag-checkered"></i></div>
-                </div>
-                <div className="overflow-hidden flex-1 min-w-0">
-                  <div className="text-[10px] sm:text-xs text-gray-300 uppercase font-semibold tracking-wide">To</div>
-                  <div className="font-semibold text-white text-sm sm:text-base mt-1 truncate">{order.delivery}</div>
-                  <div className="text-[11px] sm:text-[12px] text-gray-400 mt-1.5 sm:mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2"><i className="fas fa-location-dot text-emerald-400 text-[10px] sm:text-xs"></i><span className="text-emerald-300 font-medium">Delivery</span> <span className="text-cyan-300">by {order.eta}</span></div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] text-rose-300 font-black tracking-[0.2em] uppercase">From</div>
+                  <div className="font-black text-white text-base mt-1 truncate italic uppercase tracking-tight">{order.pickup}</div>
+                  <div className="mt-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                    <i className="fas fa-clock text-amber-400 animate-pulse"></i>
+                    <span className="text-gray-300">Pickup @</span>
+                    <span className="text-amber-400">{safeTime(order.date)}</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="mt-4 sm:mt-6 rounded-2xl sm:rounded-3xl p-3 sm:p-4 bg-gradient-to-br from-blue-600/30 via-blue-500/25 to-cyan-500/30 border border-white/15 shadow-inner shadow-blue-900/30">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  <MetricPill icon="fa-road" label="Distance" value={order.distance ?? '12.4 km'} gradientFrom="from-indigo-500" gradientTo="to-indigo-600" />
-                  <MetricPill icon="fa-box" label="Weight" value={order.weight ?? '0.8 kg'} gradientFrom="from-pink-500" gradientTo="to-fuchsia-600" />
+              <div className="flex gap-4 p-4 bg-slate-900/40 hover:bg-slate-900/60 rounded-2xl border border-white/10 hover:border-blue-500/30 transition-all group backdrop-blur-xl">
+                <div className="w-12 h-12 rounded-xl relative flex items-center justify-center shadow-lg shadow-emerald-500/20 flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-400 via-green-500 to-teal-600 opacity-90" />
+                  <div className="relative text-white text-xl"><i className="fas fa-flag-checkered"></i></div>
                 </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] text-emerald-300 font-black tracking-[0.2em] uppercase">To</div>
+                  <div className="font-black text-white text-base mt-1 truncate italic uppercase tracking-tight">{order.delivery}</div>
+                  <div className="mt-2 flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                    <i className="fas fa-location-dot text-emerald-400 animate-bounce-slow"></i>
+                    <span className="text-gray-300">Delivery By</span>
+                    <span className="text-emerald-400">{order.status === 'delivered' ? 'COMPLETED' : order.eta}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-2 grid grid-cols-2 gap-4">
+                <MetricPill icon="fa-road" label="Distance" value={order.distance ?? '12.4 km'} gradientFrom="from-blue-600/40" gradientTo="to-cyan-600/40" />
+                <MetricPill icon="fa-box" label="Weight" value={order.weight ?? '0.8 kg'} gradientFrom="from-blue-600/40" gradientTo="to-cyan-600/40" />
               </div>
             </div>
           </div>
