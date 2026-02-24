@@ -134,17 +134,22 @@ const TrackPackage: React.FC = () => {
 
   // Local StatCard matching OwnerDashboard style
   const StatCard = ({ icon, colorFrom = 'from-blue-400', colorTo = 'to-blue-600', value, label, trend }: any) => (
-    <div className="glass-card p-4 sm:p-6 rounded-[24px] sm:rounded-[32px] border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-md shadow-2xl transition-all hover:border-white/20 group">
-      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl relative flex items-center justify-center mb-4 mx-auto transform group-hover:scale-110 transition-transform">
+    <div className="glass-card p-5 sm:p-6 rounded-[32px] border border-white/10 bg-slate-900/40 backdrop-blur-xl shadow-[0_0_20px_rgba(0,0,0,0.3)] transition-all hover:border-blue-500/30 group overflow-hidden relative">
+      <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 blur-2xl -mr-12 -mt-12 rounded-full"></div>
+      <div className="w-14 h-14 rounded-2xl relative flex items-center justify-center mb-4 mx-auto transform group-hover:rotate-12 group-hover:scale-110 transition-all">
         <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${colorFrom} ${colorTo} opacity-90 shadow-lg shadow-blue-500/20`} />
-        <div className="relative text-white text-xl sm:text-2xl">
+        <div className="relative text-white text-xl">
           <i className={`fas ${icon}`} />
         </div>
       </div>
-      <div className="text-center">
-        <div className="text-[10px] sm:text-xs text-gray-300 uppercase font-bold tracking-wider sm:tracking-widest mb-1.5 sm:mb-2 md:mb-3">{label}</div>
-        <div className="text-xl sm:text-2xl md:text-3xl font-black text-white break-words">{value}</div>
-        {trend && <div className="text-[10px] sm:text-xs text-emerald-400 font-semibold mt-1 sm:mt-2 flex items-center justify-center gap-1"><i className="fas fa-arrow-up"></i>{trend}</div>}
+      <div className="text-center relative z-10">
+        <div className="text-[10px] text-blue-300 font-black tracking-[0.2em] uppercase mb-1">{label}</div>
+        <div className="text-2xl font-black text-white italic tracking-tight">{value}</div>
+        {trend && (
+          <div className="mt-2 text-[9px] font-bold uppercase tracking-widest text-emerald-400 flex items-center justify-center gap-1">
+            <i className="fas fa-arrow-trend-up"></i> {trend}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -355,34 +360,83 @@ const TrackPackage: React.FC = () => {
             </div>
           </div>
 
-          {/* Mini Map Placeholder */}
-          <div className="glass-card p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-white/20 shadow-lg mb-4">
-            <div className="flex items-center justify-between mb-3">
-              <div>
-                <div className="text-[10px] sm:text-xs text-gray-300 uppercase tracking-wider">Live Map</div>
-                <div className="text-xs sm:text-sm font-semibold text-white">Route Overview</div>
+          {/* Tactical Route Overview */}
+          <div className="glass-card p-4 sm:p-6 rounded-2xl sm:rounded-[32px] border border-white/10 shadow-2xl bg-slate-900/20 backdrop-blur-xl relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 blur-[100px] -mr-20 -mt-20 rounded-full"></div>
+
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-1 h-4 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)]"></div>
+                <div>
+                  <div className="text-[10px] text-blue-300 font-black tracking-widest uppercase mb-0.5">Tactical Display</div>
+                  <div className="text-xs font-black text-white italic uppercase">Route Navigation</div>
+                </div>
               </div>
-              <div className="text-[10px] sm:text-[12px] text-gray-300 font-mono hidden sm:block">Zoom • Pan</div>
+              <div className="flex items-center gap-4">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                  <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Active Link</span>
+                </div>
+                <div className="text-[10px] text-blue-400 font-mono hidden md:block tracking-widest italic">Z-COORD: 45.2 • SCANNING...</div>
+              </div>
             </div>
-            <div className="w-full h-28 sm:h-32 md:h-36 rounded-lg border border-white/8 overflow-hidden relative bg-black/20">
-              <div className="absolute inset-0 flex items-center justify-center">
+
+            <div className="w-full h-32 sm:h-40 md:h-48 rounded-xl border border-white/10 overflow-hidden relative bg-black/40 ring-1 ring-blue-500/20">
+              {/* Tactical Brackets */}
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-blue-500/50 rounded-tl"></div>
+              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-blue-500/50 rounded-tr"></div>
+              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-blue-500/50 rounded-bl"></div>
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-blue-500/50 rounded-br"></div>
+
+              {/* Holographic Scanning Line */}
+              <div className="absolute inset-0 bg-blue-500/5 pointer-events-none"></div>
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-b from-blue-500/20 to-transparent animate-scan z-20 pointer-events-none shadow-[0_0_15px_rgba(59,130,246,0.3)]"></div>
+
+              <div className="absolute inset-0 flex items-center justify-center transition-all duration-700">
                 <div
-                  className="w-full h-full bg-[url('https://img.freepik.com/premium-vector/city-navigation-perspective-map-with-two-point-directional-pin_150101-8356.jpg?w=2000')] bg-cover bg-center filter brightness-95"
+                  className="w-full h-full bg-[url('https://img.freepik.com/premium-vector/city-navigation-perspective-map-with-two-point-directional-pin_150101-8356.jpg?w=2000')] bg-cover bg-center filter grayscale contrast-125 brightness-75 opacity-60 mix-blend-screen"
                   style={{ transform: `scale(${miniMapZoom})` }}
                 />
               </div>
-              <div className="absolute left-2 top-2 sm:left-3 sm:top-3 bg-white/6 text-[9px] sm:text-xs text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Map • Demo</div>
-              <div className="absolute right-2 bottom-2 sm:right-3 sm:bottom-3 bg-black/40 text-[9px] sm:text-xs text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">Approx</div>
-              <div className="absolute right-2 top-2 sm:right-3 sm:top-3 flex flex-col gap-1.5 sm:gap-2">
-                <button onClick={zoomInMap} className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-gradient-to-br from-indigo-500 to-cyan-500 text-white flex items-center justify-center shadow-lg ring-1 ring-white/10 text-sm sm:text-base">+</button>
-                <button onClick={zoomOutMap} className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-gradient-to-br from-indigo-500 to-cyan-500 text-white flex items-center justify-center shadow-lg ring-1 ring-white/10 text-sm sm:text-base">−</button>
+
+              {/* Data Overlay */}
+              <div className="absolute left-4 top-4 z-30 pointer-events-none">
+                <div className="text-[9px] font-mono text-blue-400 bg-blue-950/80 px-2 py-1 rounded border border-blue-500/30 backdrop-blur-sm tracking-widest">MAP•SAT•INTEL</div>
+              </div>
+
+              <div className="absolute right-3 top-3 flex flex-col gap-2 z-30">
+                <button onClick={zoomInMap} className="w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-blue-600 border border-white/10 text-white flex items-center justify-center transition-all shadow-xl backdrop-blur-md group">
+                  <i className="fas fa-plus text-xs group-hover:scale-125 transition-transform"></i>
+                </button>
+                <button onClick={zoomOutMap} className="w-8 h-8 rounded-lg bg-slate-900/80 hover:bg-blue-600 border border-white/10 text-white flex items-center justify-center transition-all shadow-xl backdrop-blur-md group">
+                  <i className="fas fa-minus text-xs group-hover:scale-125 transition-transform"></i>
+                </button>
+              </div>
+
+              <div className="absolute right-4 bottom-4 z-30 pointer-events-none">
+                <div className="text-[9px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-1 rounded border border-emerald-500/30 backdrop-blur-sm tracking-widest uppercase">Target Locked</div>
               </div>
             </div>
           </div>
 
-          {/* Telemetry Data Cards (OwnerDashboard StatCard style) */}
-          <div className="grid grid-cols-1 sm:grid-cols-1 gap-3 sm:gap-4 max-w-sm mx-auto">
-            <StatCard icon="fa-signal" colorFrom="from-purple-400" colorTo="to-purple-600" value="Strong" label="Signal" />
+          {/* Tactical Telemetry Cards */}
+          <div className="grid grid-cols-2 gap-4">
+            <StatCard
+              icon="fa-signal"
+              colorFrom="from-blue-500"
+              colorTo="to-cyan-600"
+              value="STABLE"
+              label="Sync Status"
+              trend="98% SIGNAL"
+            />
+            <StatCard
+              icon="fa-bolt"
+              colorFrom="from-amber-400"
+              colorTo="to-orange-600"
+              value={`${Math.round(telemetry.battery)}%`}
+              label="Energy"
+              trend="OPTIMAL"
+            />
           </div>
         </div>
 
