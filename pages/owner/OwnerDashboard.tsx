@@ -38,8 +38,8 @@ const OwnerDashboard: React.FC = () => {
   const { orders, getStats, updateOrderStatus } = useData();
   const stats = getStats('owner');
 
-  // Find all active orders (In-Transit)
-  const activeMissions = orders.filter(o => o.status === 'in-transit');
+  // Find all active orders (In-Transit or Picked-Up)
+  const activeMissions = orders.filter(o => o.status === 'in-transit' || o.status === 'picked-up');
   const pendingOrders = orders.filter(o => o.status === 'pending');
   const [query, setQuery] = useState('');
 
@@ -164,12 +164,21 @@ const OwnerDashboard: React.FC = () => {
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => updateOrderStatus(mission.id, 'delivered')}
-                        className="w-full primary-btn px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-center gap-2 font-semibold text-xs sm:text-sm"
-                      >
-                        <i className="fas fa-check-circle text-xs"></i> Land & Deliver
-                      </button>
+                      {mission.status === 'in-transit' ? (
+                        <button
+                          onClick={() => updateOrderStatus(mission.id, 'picked-up')}
+                          className="w-full primary-btn px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-center gap-2 font-semibold text-xs sm:text-sm bg-gradient-to-r from-amber-500 to-orange-600 border-none"
+                        >
+                          <i className="fas fa-box text-xs"></i> Reached Pickup
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => updateOrderStatus(mission.id, 'delivered')}
+                          className="w-full primary-btn px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-center gap-2 font-semibold text-xs sm:text-sm"
+                        >
+                          <i className="fas fa-check-circle text-xs"></i> Land & Deliver
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>

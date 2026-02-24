@@ -21,11 +21,11 @@ export interface Drone {
 export interface Order {
   id: string;
   customerId?: string;
-  ownerId?: string; 
-  ownerName?: string; 
-  ownerEmail?: string; 
+  ownerId?: string;
+  ownerName?: string;
+  ownerEmail?: string;
   // ADDED 'rejected' HERE
-  status: 'pending' | 'in-transit' | 'delivered' | 'rejected'; 
+  status: 'pending' | 'in-transit' | 'picked-up' | 'delivered' | 'rejected';
   pickup: string;
   delivery: string;
   eta?: string;

@@ -183,7 +183,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return {
         totalOrders: orders.length,
         delivered: orders.filter(o => o.status === 'delivered').length,
-        inTransit: orders.filter(o => o.status === 'in-transit').length,
+        inTransit: orders.filter(o => o.status === 'in-transit' || o.status === 'picked-up').length,
         spent: orders.reduce((acc, curr) => acc + curr.price, 0)
       };
     } else {
@@ -191,7 +191,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         earnings: orders.filter(o => o.status === 'delivered').reduce((acc, curr) => acc + (curr.price * 0.8), 0),
         deliveries: orders.filter(o => o.status === 'delivered').length,
         flightHours: orders.length * 0.5,
-        activeOrders: orders.filter(o => o.status === 'in-transit').length
+        activeOrders: orders.filter(o => o.status === 'in-transit' || o.status === 'picked-up').length
       };
     }
   };

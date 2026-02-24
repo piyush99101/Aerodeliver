@@ -63,89 +63,32 @@ const TrackPackage: React.FC = () => {
     };
   }, [orderId]);
 
-  // Simulate telemetry and progress
+  // Status-driven progress and telemetry
   useEffect(() => {
-    if (order?.status === 'in-transit') {
-      const interval = setInterval(() => {
-        setTelemetry(prev => ({
-          alt: 120 + Math.random() * 5 - 2.5,
-          speed: 45 + Math.random() * 2,
-          battery: Math.max(0, prev.battery - 0.05)
-        }));
+    if (!order) return;
 
-        // Progress through two phases: 0-50% to pickup, 50-100% to drop
-        setProgress(p => {
-          if (p >= 100) return 0;
-          const newProgress = p + 0.5;
-          // Update phase when crossing 50%
-          if (p < 50 && newProgress >= 50) {
-            setCurrentPhase('to-drop');
-          }
-          return newProgress;
-        });
-      }, 100);
-      return () => clearInterval(interval);
-    } else if (order?.status === 'delivered') {
-      setTelemetry({ alt: 0, speed: 0, battery: 45 });
+    if (order.status === 'delivered') {
       setProgress(100);
+      setTelemetry({ alt: 0, speed: 0, battery: 45 });
       setCurrentPhase('to-drop');
+    } else if (order.status === 'picked-up') {
+      setProgress(50);
+      setTelemetry({ alt: 120, speed: 45, battery: 85 });
+      setCurrentPhase('to-drop');
+    } else if (order.status === 'in-transit') {
+      setProgress(0); // At BASE, but mission is "live"
+      setTelemetry({ alt: 120, speed: 0, battery: 100 });
+      setCurrentPhase('to-pickup');
     } else {
-      setProgress(5);
+      setProgress(0);
+      setTelemetry({ alt: 0, speed: 0, battery: 100 });
       setCurrentPhase('to-pickup');
     }
   }, [order?.status]);
 
-  // UI handlers and refs
-  const camRef = useRef<HTMLDivElement | null>(null);
   const [miniMapZoom, setMiniMapZoom] = useState(1);
-
-  // SVG refs and plane position (for precise placement along the bezier path)
   const pathRef = useRef<SVGPathElement | null>(null);
   const [planePoint, setPlanePoint] = useState({ x: 50, y: 50 });
-
-  const handleSnapshot = useCallback(() => {
-    // Try to draw the current <img> into a canvas and download — requires CORS-enabled images
-    const imgEl: HTMLImageElement | null = camRef.current?.querySelector('img') ?? null;
-    if (!imgEl) return;
-    try {
-      const canvas = document.createElement('canvas');
-      canvas.width = imgEl.naturalWidth || imgEl.width;
-      canvas.height = imgEl.naturalHeight || imgEl.height;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) throw new Error('no-canvas');
-      ctx.drawImage(imgEl, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob((blob) => {
-        if (!blob) return;
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `snapshot_${order?.id || 'order'}.png`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-      });
-    } catch (err) {
-      // Fallback: download image URL directly (may be blocked by CORS)
-      const imgUrl = imgEl.src;
-      const a = document.createElement('a');
-      a.href = imgUrl;
-      a.download = `snapshot_${order?.id || 'order'}.jpg`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-  }, [order?.id]);
-
-  const toggleFullscreen = useCallback(() => {
-    const el = camRef.current as any;
-    if (!el) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else if (el.requestFullscreen) {
-      el.requestFullscreen();
-    }
-  }, []);
 
   const zoomInMap = () => setMiniMapZoom(z => Math.min(2, +(z + 0.25).toFixed(2)));
   const zoomOutMap = () => setMiniMapZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)));
@@ -301,34 +244,6 @@ const TrackPackage: React.FC = () => {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:48px_48px] opacity-40"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-transparent pointer-events-none"></div>
 
-            {/* Drone Cam View (simplified) */}
-            {isLive && (
-              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 md:top-6 md:right-6 z-10 w-40 sm:w-48 md:w-52 h-24 sm:h-28 md:h-32 bg-black/50 border border-white/12 rounded-lg overflow-hidden hidden md:block transition-all">
-                <div className="absolute top-1.5 left-2 sm:top-2 sm:left-3 text-[9px] sm:text-[10px] text-red-400">● REC</div>
-                <div ref={camRef} className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 flex items-center gap-1.5 sm:gap-2 opacity-90">
-                  <button onClick={handleSnapshot} className="w-6 h-6 sm:w-7 sm:h-7 bg-white/6 hover:bg-white/12 rounded-md flex items-center justify-center text-white text-[10px] sm:text-xs transition" title="Snapshot">
-                    <i className="fas fa-camera"></i>
-                  </button>
-                  <button onClick={toggleFullscreen} className="w-6 h-6 sm:w-7 sm:h-7 bg-white/6 hover:bg-white/12 rounded-md flex items-center justify-center text-white text-[10px] sm:text-xs transition" title="Fullscreen">
-                    <i className="fas fa-expand"></i>
-                  </button>
-                </div>
-                <div className="w-full h-full bg-gray-900 flex items-center justify-center relative">
-                  <img src="https://images.pexels.com/photos/8783188/pexels-photo-8783188.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" className="w-full h-full object-cover opacity-72" alt="Drone Cam" />
-                  <div className="absolute left-1.5 sm:left-2 bottom-6 sm:bottom-8 bg-black/45 px-1.5 sm:px-2 py-0.5 rounded text-[9px] sm:text-[11px] text-white font-mono flex items-center gap-1.5 sm:gap-2">
-                    <i className="fas fa-bolt text-yellow-300"></i>
-                    <span>{telemetry.battery.toFixed(0)}%</span>
-                    <span className="mx-1 sm:mx-2">•</span>
-                    <i className="fas fa-arrow-up text-cyan-300"></i>
-                    <span>{telemetry.alt.toFixed(0)}m</span>
-                  </div>
-                </div>
-                <div className="absolute bottom-0 inset-x-0 bg-black/35 p-0.5 sm:p-1 text-[9px] sm:text-[11px] text-white font-mono text-center">
-                  DRONE-CAM • HEX-404
-                </div>
-              </div>
-            )}
-
             {/* SVG Flight Path Map */}
             <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
               <svg className="w-full h-full" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet">
@@ -363,6 +278,7 @@ const TrackPackage: React.FC = () => {
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeOpacity={0.9}
+                  className="transition-all duration-1000 ease-in-out"
                   style={{ strokeDasharray: 1000, strokeDashoffset: 1000 - (progress / 100) * 1000 }}
                 />
 
@@ -382,16 +298,16 @@ const TrackPackage: React.FC = () => {
                 <text x="350" y="175" textAnchor="middle" fill={order.status === 'delivered' ? '#6EE7B7' : '#F9A8D4'} fontSize="10" fontFamily="monospace" fontWeight="bold">DROP</text>
 
                 {/* Drone marker positioned by SVG path */}
-                <g transform={`translate(${planePoint.x}, ${planePoint.y})`}>
+                <g className="transition-all duration-1000 ease-in-out" transform={`translate(${planePoint.x}, ${planePoint.y})`}>
                   <circle r="16" fill="rgba(255,255,255,0.03)" />
                   <circle r="9" fill="#0A74DA" stroke="#ffffff" strokeOpacity="0.08" />
-                  <text x="0" y="24" textAnchor="middle" fontSize="9" fill="#E6EEF8" fontFamily="monospace">{order.status === 'delivered' ? 'Delivered' : `${Math.round(telemetry.speed)} km/h`}</text>
+                  <text x="0" y="24" textAnchor="middle" fontSize="9" fill="#E6EEF8" fontFamily="monospace">{order.status === 'delivered' ? 'Delivered' : order.status === 'picked-up' ? 'Arrived @ Pickup' : `${Math.round(telemetry.speed)} km/h`}</text>
                 </g>
               </svg>
 
               {/* Progress Bar — Visual progress under map (responsive) */}
               <div className="absolute left-4 right-4 sm:left-8 sm:right-8 md:left-12 md:right-12 bottom-4 sm:bottom-6 h-2 sm:h-3 bg-white/6 rounded-full overflow-hidden border border-white/8">
-                <div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all" style={{ width: Math.min(100, Math.max(0, progress)) + '%' }} />
+                <div className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-1000 ease-in-out" style={{ width: Math.min(100, Math.max(0, progress)) + '%' }} />
               </div>
             </div>
           </div>
