@@ -169,9 +169,9 @@ const TrackPackage: React.FC = () => {
 
   // Calculate path segments for two-phase journey
   const getPathData = () => {
-    // Segment 1: Warehouse (50, 50) to Pickup (200, 150)
-    // Segment 2: Pickup (200, 150) to Drop (350, 150)
-    return "M 50 50 Q 125 100 200 150 L 200 150 Q 275 150 350 150";
+    // Segment 1: Warehouse (50, 110) to Pickup (200, 110)
+    // Segment 2: Pickup (200, 110) to Drop (350, 110)
+    return "M 50 110 L 200 110 L 350 110";
   };
 
   // Helper for safe date parsing
@@ -303,7 +303,7 @@ const TrackPackage: React.FC = () => {
 
                 {/* Markers with improved positioning and visuals */}
                 {/* BASE */}
-                <g transform="translate(50, 50)">
+                <g transform="translate(50, 110)">
                   <circle r="12" fill="rgba(139, 92, 246, 0.1)" />
                   <circle r="6" fill="#8B5CF6" stroke="#fff" strokeOpacity="0.5" strokeWidth="2" filter="url(#glow)" />
                   <g transform="translate(0, -25)">
@@ -313,7 +313,7 @@ const TrackPackage: React.FC = () => {
                 </g>
 
                 {/* PICKUP */}
-                <g transform="translate(200, 150)">
+                <g transform="translate(200, 110)">
                   <circle r="12" fill={currentPhase === 'to-pickup' && progress < 50 ? 'rgba(236, 72, 153, 0.1)' : 'rgba(16, 185, 129, 0.1)'} />
                   <circle r="6" fill={currentPhase === 'to-pickup' && progress < 50 ? '#EC4899' : '#10B981'} stroke="#fff" strokeOpacity="0.5" strokeWidth="2" filter="url(#glow)" />
                   <g transform="translate(0, 25)">
@@ -323,7 +323,7 @@ const TrackPackage: React.FC = () => {
                 </g>
 
                 {/* DROP */}
-                <g transform="translate(350, 150)">
+                <g transform="translate(350, 110)">
                   <circle r="12" fill={order.status === 'delivered' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(236, 72, 153, 0.1)'} />
                   <circle r="6" fill={order.status === 'delivered' ? '#10B981' : '#EC4899'} stroke="#fff" strokeOpacity="0.5" strokeWidth="2" filter="url(#glow)" />
                   <g transform="translate(0, 25)">
