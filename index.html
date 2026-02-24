@@ -3,10 +3,39 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AeroDeliver</title>
+
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="OietavG-qh1jzO3lde9D_WYxWH9i_kBe7Eh-EW2gZF8" />
+
+    <!-- Basic SEO -->
+    <title>AeroDeliver - Drone Delivery Service in Dhule</title>
+    <meta name="description" content="AeroDeliver provides fast, eco-friendly drone delivery services in Dhule. Experience the future of smart logistics today." />
+    <meta name="keywords" content="Drone delivery Dhule, AeroDeliver India, parcel drone service, fast delivery Maharashtra" />
+    <meta name="author" content="AeroDeliver" />
+
+    <!-- Open Graph (for social sharing) -->
+    <meta property="og:title" content="AeroDeliver - Drone Delivery Service" />
+    <meta property="og:description" content="Fast and eco-friendly drone delivery in Dhule." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aerodeliver-production.up.railway.app/" />
+
+    <!-- Google Analytics (Replace G-XXXXXXXXXX with your ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
     <script>
       tailwind.config = {
         theme: {
@@ -45,23 +74,29 @@
         }
       }
     </script>
+
+    <!-- Custom Styles -->
     <style>
       body { font-family: 'Inter', sans-serif; }
-      /* Custom Scrollbar */
+
       ::-webkit-scrollbar { width: 6px; }
       ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb { background: #21262D; border-radius: 3px; }
       ::-webkit-scrollbar-thumb:hover { background: #161B22; }
-      
+
       .form-card {
         transition: all 0.3s ease;
       }
+
       .form-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                    0 4px 6px -4px rgba(0, 0, 0, 0.1);
       }
     </style>
-  <script type="importmap">
+
+    <!-- React Import Map -->
+    <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@18.2.0",
@@ -73,11 +108,13 @@
     "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
+    </script>
+
+    <link rel="stylesheet" href="/index.css">
+  </head>
+
   <body class="bg-brand-gray-100 text-brand-dark antialiased">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
-</body>
+  </body>
 </html>
