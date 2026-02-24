@@ -52,7 +52,6 @@ const AppContent: React.FC = () => {
     setMounted(true);
 
     if (typeof window !== 'undefined') {
-<<<<<<< HEAD
       const isMobile = window.innerWidth < 768;
       const hasVisited = sessionStorage.getItem('hasVisited');
 
@@ -69,11 +68,8 @@ const AppContent: React.FC = () => {
 
       const redirecting = window.location.hash.includes('access_token=') ||
         window.location.hash.includes('recovery_token=') ||
-=======
-      const redirecting =
         window.location.search.includes('access_token=') ||
         window.location.search.includes('recovery_token=') ||
->>>>>>> e0c275ca63e87c5be7b5e75140203674dd29a4b0
         window.location.href.includes('access_token=');
 
       setIsAuthRedirect(redirecting);

@@ -1,0 +1,157 @@
+/* Global custom styles for AeroDeliver - glassmorphism utilities */
+:root{
+  --glass-bg: rgba(255,255,255,0.28);
+  --glass-border: rgba(255,255,255,0.6);
+  --glass-accent: rgba(255,255,255,0.14);
+  /* Motion tokens */
+  --motion-duration-fast: 120ms;
+  --motion-duration: 220ms;
+  --motion-duration-slow: 360ms;
+  --motion-ease: cubic-bezier(.2,.9,.28,1);
+  /* Brand color fallbacks (also defined in tailwind.config in index.html) */
+  --brand-blue: #0A74DA;
+  --brand-dark: #0D1117;
+  --brand-gray-100: #F6F8FA;
+}
+
+/* Subtle noise texture overlay to add depth */
+.bg-noise{
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+}
+
+/* Apple-like glass card utility */
+.glass-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.36) 0%, rgba(255,255,255,0.18) 100%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 30px rgba(14,30,37,0.08), inset 0 1px 0 rgba(255,255,255,0.4);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  transition: transform var(--motion-duration) var(--motion-ease), box-shadow var(--motion-duration) var(--motion-ease), opacity var(--motion-duration) var(--motion-ease);
+}
+
+.glass-card:hover{ transform: none; box-shadow: 0 8px 30px rgba(14,30,37,0.08), inset 0 1px 0 rgba(255,255,255,0.4); }
+
+/* Small utility to add smooth transitions to any element */
+.smooth-transition{ transition: all var(--motion-duration) var(--motion-ease); }
+
+/* Inputs: smoother focus state and subtle highlight */
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea {
+  transition: border-color var(--motion-duration) var(--motion-ease), box-shadow var(--motion-duration) var(--motion-ease), transform var(--motion-duration) var(--motion-ease);
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 8px 30px rgba(37,99,235,0.12);
+  transform: translateZ(0);
+}
+
+/* subtle control focus for switches */
+.w-12.h-6:focus, .w-12.h-6:active { outline: none; box-shadow: 0 6px 20px rgba(37,99,235,0.08); }
+
+/* Stronger glass variant for emphasis */
+.glass-strong{
+  background: linear-gradient(180deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.2) 100%);
+  border: 1px solid rgba(255,255,255,0.75);
+  box-shadow: 0 12px 40px rgba(2,6,23,0.12), inset 0 1px 0 rgba(255,255,255,0.5);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+}
+
+/* Reusable CTA button styles */
+.primary-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  background: linear-gradient(90deg,#3b82f6,#2563eb);
+  color:#fff;padding:0.6rem 1rem;border-radius:0.75rem;font-weight:700;
+  box-shadow: 0 8px 20px rgba(37,99,235,0.18);
+  transition: transform var(--motion-duration-fast) var(--motion-ease), box-shadow var(--motion-duration-fast) var(--motion-ease), opacity var(--motion-duration) var(--motion-ease);
+}
+.primary-btn:hover{ transform: translateY(-3px) translateZ(0); box-shadow: 0 14px 28px rgba(37,99,235,0.22); }
+
+.secondary-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  background: rgba(255,255,255,0.35); border:1px solid rgba(255,255,255,0.5);
+  color:#0f172a;padding:0.56rem 0.9rem;border-radius:0.75rem;font-weight:700;
+  transition: transform var(--motion-duration-fast) var(--motion-ease), background var(--motion-duration) var(--motion-ease);
+}
+.secondary-btn:hover{ background: rgba(255,255,255,0.45); transform: translateY(-2px) translateZ(0); }
+
+/* Section utilities */
+.section{ padding:2.25rem 1rem; }
+.section-title{ font-size:1.9rem; font-weight:800; color:#0f172a; }
+.section-sub{ color:#475569; font-weight:600; }
+
+/* Stats grid helper */
+.stats-grid{ display:grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap:1rem; }
+@media (max-width: 1024px){ .stats-grid{ grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 640px){ .stats-grid{ grid-template-columns: 1fr; } }
+
+/* Modal visual improvements */
+.modal-backdrop{ background: rgba(2,6,23,0.55); backdrop-filter: blur(6px); }
+.modal-panel{ max-width:32rem; margin:0 auto; }
+
+/* small helpers for readable text inside glass */
+.glass-card .muted{ color: #64748b; }
+.glass-card .strong{ color: #0f172a; font-weight:700; }
+
+/* Spotlight mouse gradient (used on landing) */
+.spotlight-card{
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-card::before{
+  content: "";
+  position: absolute;
+  left: var(--mouse-x, 50%);
+  top: var(--mouse-y, 50%);
+  transform: translate(-50%, -50%);
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 20%, transparent 50%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  transition: opacity var(--motion-duration) var(--motion-ease), transform var(--motion-duration) var(--motion-ease);
+}
+
+/* Larger rounded container usage */
+.rounded-2dot5rem{
+  border-radius: 2.5rem;
+}
+
+/* Utility tweaks for smaller elements */
+.glass-card .text-slate-900{ color: #0f172a; }
+
+/* Small fallbacks for brand utilities (useful if Tailwind utilities are unavailable) */
+.text-brand-dark{ color: var(--brand-dark) !important; }
+.text-brand-blue{ color: var(--brand-blue) !important; }
+.bg-brand-blue{ background-color: var(--brand-blue) !important; }
+.bg-brand-gray-100{ background-color: var(--brand-gray-100) !important; }
+.border-brand-gray-100{ border-color: var(--brand-gray-100) !important; }
+
+/* Keyframes for subtle float/fade/slide effects */
+@keyframes floatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; r: 8px; }
+  50% { opacity: 0.5; r: 12px; }
+}
+
+.float-slow{ animation: floatY 6s ease-in-out infinite; }
+.fade-in-up{ animation: fadeInUp var(--motion-duration-slow) var(--motion-ease) both; }
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce){
+  :root{ --motion-duration-fast: 1ms; --motion-duration:1ms; --motion-duration-slow:1ms; }
+  .glass-card, .primary-btn, .secondary-btn, .spotlight-card::before { transition: none !important; animation: none !important; }
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px){
+  .glass-card{ backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+}
