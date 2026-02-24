@@ -134,10 +134,10 @@ const TrackPackage: React.FC = () => {
 
   // Local StatCard matching OwnerDashboard style
   const StatCard = ({ icon, colorFrom = 'from-blue-400', colorTo = 'to-blue-600', value, label, trend }: any) => (
-    <div className="glass-card p-3 sm:p-4 md:p-6 rounded-2xl sm:rounded-3xl border border-white/24">
-      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl relative flex items-center justify-center shadow-lg mb-2 sm:mb-3 md:mb-4 mx-auto">
-        <div className={`absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br ${colorFrom} ${colorTo}`} />
-        <div className="relative text-white text-lg sm:text-xl md:text-2xl">
+    <div className="glass-card p-4 sm:p-6 rounded-[24px] sm:rounded-[32px] border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-md shadow-2xl transition-all hover:border-white/20 group">
+      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl relative flex items-center justify-center mb-4 mx-auto transform group-hover:scale-110 transition-transform">
+        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${colorFrom} ${colorTo} opacity-90 shadow-lg shadow-blue-500/20`} />
+        <div className="relative text-white text-xl sm:text-2xl">
           <i className={`fas ${icon}`} />
         </div>
       </div>
@@ -151,17 +151,16 @@ const TrackPackage: React.FC = () => {
 
   // Pills used for distance / fee / weight (rounded, gradient, glassy)
   const MetricPill = ({ icon, label, value, gradientFrom = 'from-blue-500', gradientTo = 'to-cyan-500' }: any) => (
-    <div className="relative overflow-hidden rounded-[20px] sm:rounded-[26px] border border-white/30 bg-gradient-to-b from-white/15 via-white/5 to-white/0 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,0,0.25)]">
-      <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-white/5 to-transparent pointer-events-none" />
-      <div className="relative flex flex-col items-center gap-2 sm:gap-3 py-3 sm:py-4 md:py-5 px-3 sm:px-4 text-white">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl relative flex items-center justify-center shadow-lg">
-          <div className={`absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br ${gradientFrom} ${gradientTo}`} />
-          <div className="relative text-white text-base sm:text-lg md:text-xl">
+    <div className="relative overflow-hidden rounded-[24px] sm:rounded-[32px] border border-white/15 bg-slate-900/40 backdrop-blur-xl shadow-xl transition-all hover:bg-slate-900/60 group">
+      <div className="relative flex flex-col items-center gap-2 py-4 sm:py-5 px-3 text-white">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl relative flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform">
+          <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${gradientFrom} ${gradientTo} opacity-80`} />
+          <div className="relative text-white text-base sm:text-lg">
             <i className={`fas ${icon}`} />
           </div>
         </div>
-        <div className="text-[9px] sm:text-[10px] md:text-[11px] tracking-[0.2em] sm:tracking-[0.24em] uppercase font-semibold text-white/80 text-center">{label}</div>
-        <div className="text-xl sm:text-2xl md:text-3xl font-black leading-tight text-center break-words">{value}</div>
+        <div className="text-[9px] sm:text-[10px] tracking-widest uppercase font-bold text-blue-300/80 text-center">{label}</div>
+        <div className="text-xl sm:text-2xl font-black leading-tight text-center break-words group-hover:text-cyan-200 transition-colors uppercase italic">{value}</div>
       </div>
     </div>
   );
@@ -207,16 +206,18 @@ const TrackPackage: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full lg:w-auto">
             {/* Small ETA/Progress Card */}
-            <div className="glass-card p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-white/24 shadow-lg w-full sm:w-auto sm:min-w-fit">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl relative flex items-center justify-center shadow-lg flex-shrink-0">
-                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 opacity-95" />
-                  <div className="relative text-white"><i className="fas fa-clock text-base sm:text-lg"></i></div>
+            <div className="glass-card p-4 rounded-[20px] border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-md shadow-xl w-full sm:w-auto sm:min-w-fit">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl relative flex items-center justify-center shadow-lg flex-shrink-0">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 opacity-90" />
+                  <div className="relative text-white"><i className="fas fa-clock text-lg"></i></div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[10px] sm:text-xs text-gray-300 uppercase tracking-wider font-bold">Estimated Arrival</div>
-                  <div className="text-lg sm:text-xl md:text-2xl font-extrabold text-white truncate">{order.status === 'delivered' ? 'ARRIVED' : order.eta}</div>
-                  <div className="text-[10px] sm:text-xs text-emerald-400 font-semibold flex items-center gap-1 mt-1">Progress • {Math.min(100, Math.max(0, Math.round(progress)))}%</div>
+                  <div className="text-[10px] text-gray-400 uppercase tracking-widest font-black">Estimated Arrival</div>
+                  <div className="text-xl sm:text-2xl font-black text-white truncate">{order.status === 'delivered' ? 'ARRIVED' : order.eta}</div>
+                  <div className="text-[10px] text-emerald-400 font-black flex items-center gap-1 mt-0.5 tracking-widest uppercase">
+                    <span className="animate-pulse">●</span> LIVE PROGRESS • {Math.min(100, Math.max(0, Math.round(progress)))}%
+                  </div>
                 </div>
               </div>
             </div>
@@ -234,45 +235,49 @@ const TrackPackage: React.FC = () => {
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
 
           {/* Main Visualizer */}
-          <div className="glass-card rounded-xl sm:rounded-2xl overflow-hidden relative h-[300px] sm:h-[400px] md:h-[500px] border border-white/8 transition-all bg-white/5">
+          <div className="glass-card rounded-xl sm:rounded-2xl overflow-hidden relative h-[300px] sm:h-[400px] md:h-[500px] border border-white/8 transition-all bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950">
+            {/* Pulsating Glow Effect behind mission area */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-500/5 blur-[120px] rounded-full animate-pulse-slow"></div>
+
             {/* Subtle Grid Background */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:48px_48px] opacity-40"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-transparent pointer-events-none"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:32px_32px] opacity-40"></div>
 
             {/* SVG Flight Path Map */}
             <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
               <svg className="w-full h-full" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet">
                 {/* Define Gradients */}
                 <defs>
-                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#30363D" />
-                    <stop offset="50%" stopColor="#0A74DA" />
-                    <stop offset="100%" stopColor="#30363D" />
-                  </linearGradient>
                   <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0">
-                    <stop offset="0%" stopColor="#06b6d4" />
+                    <stop offset="0%" stopColor="#22d3ee" />
                     <stop offset="100%" stopColor="#3b82f6" />
                   </linearGradient>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                    <feMerge>
+                      <feMergeNode in="coloredBlur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
                 </defs>
 
-                {/* Flight Path Line (Dashed) - Two segments: Warehouse to Pickup, then Pickup to Drop */}
+                {/* Flight Path Base Line */}
                 <path
                   d={getPathData()}
                   fill="none"
-                  stroke="rgba(255,255,255,0.06)"
-                  strokeWidth="4"
-                  strokeDasharray="8 8"
+                  stroke="rgba(255,255,255,0.03)"
+                  strokeWidth="6"
+                  strokeLinecap="round"
                 />
 
-                {/* Progress shadow line (subtle) */}
+                {/* Progress Outer Glow */}
                 <path
-                  ref={el => { pathRef.current = el; }}
                   d={getPathData()}
                   fill="none"
                   stroke="url(#progressGradient)"
-                  strokeWidth="4"
+                  strokeWidth="8"
                   strokeLinecap="round"
-                  strokeOpacity={0.9}
+                  strokeOpacity={0.15}
+                  filter="blur(4px)"
                   className="transition-all duration-1000 ease-in-out"
                   style={{
                     strokeDasharray: pathRef.current?.getTotalLength() || 1000,
@@ -280,26 +285,66 @@ const TrackPackage: React.FC = () => {
                   }}
                 />
 
-                {/* Warehouse/Base Point (Starting Point) */}
-                <circle cx="50" cy="50" r="7" fill="#8B5CF6" stroke="#A78BFA" strokeWidth="2" />
-                <circle cx="50" cy="50" r="7" fill="none" stroke="#A78BFA" strokeWidth="1" opacity="0.5" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
-                <text x="50" y="30" textAnchor="middle" fill="#C4B5FD" fontSize="10" fontFamily="monospace" fontWeight="bold">BASE</text>
+                {/* Main Progress Line */}
+                <path
+                  ref={el => { pathRef.current = el; }}
+                  d={getPathData()}
+                  fill="none"
+                  stroke="url(#progressGradient)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  filter="url(#glow)"
+                  className="transition-all duration-1000 ease-in-out"
+                  style={{
+                    strokeDasharray: pathRef.current?.getTotalLength() || 1000,
+                    strokeDashoffset: (pathRef.current?.getTotalLength() || 1000) * (1 - progress / 100)
+                  }}
+                />
 
-                {/* Pickup Point */}
-                <circle cx="200" cy="150" r="7" fill={currentPhase === 'to-pickup' && progress < 50 ? '#EC4899' : '#10B981'} stroke={currentPhase === 'to-pickup' && progress < 50 ? '#F472B6' : '#6EE7B7'} strokeWidth="2" />
-                <circle cx="200" cy="150" r="7" fill="none" stroke={currentPhase === 'to-pickup' && progress < 50 ? '#F472B6' : '#6EE7B7'} strokeWidth="1" opacity="0.5" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
-                <text x="200" y="175" textAnchor="middle" fill={currentPhase === 'to-pickup' && progress < 50 ? '#F9A8D4' : '#6EE7B7'} fontSize="10" fontFamily="monospace" fontWeight="bold">PICKUP</text>
+                {/* Markers with improved positioning and visuals */}
+                {/* BASE */}
+                <g transform="translate(50, 50)">
+                  <circle r="12" fill="rgba(139, 92, 246, 0.1)" />
+                  <circle r="6" fill="#8B5CF6" stroke="#fff" strokeOpacity="0.5" strokeWidth="2" filter="url(#glow)" />
+                  <g transform="translate(0, -25)">
+                    <rect x="-25" y="-8" width="50" height="16" rx="8" fill="rgba(0,0,0,0.6)" stroke="#8B5CF6" strokeOpacity="0.4" />
+                    <text textAnchor="middle" dy="4" fill="#C4B5FD" fontSize="9" fontFamily="monospace" fontWeight="black" letterSpacing="1">BASE</text>
+                  </g>
+                </g>
 
-                {/* Drop Point */}
-                <circle cx="350" cy="150" r="7" fill={order.status === 'delivered' ? '#10B981' : '#EC4899'} stroke={order.status === 'delivered' ? '#6EE7B7' : '#F472B6'} strokeWidth="2" />
-                <circle cx="350" cy="150" r="7" fill="none" stroke={order.status === 'delivered' ? '#6EE7B7' : '#F472B6'} strokeWidth="1" opacity="0.5" style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
-                <text x="350" y="175" textAnchor="middle" fill={order.status === 'delivered' ? '#6EE7B7' : '#F9A8D4'} fontSize="10" fontFamily="monospace" fontWeight="bold">DROP</text>
+                {/* PICKUP */}
+                <g transform="translate(200, 150)">
+                  <circle r="12" fill={currentPhase === 'to-pickup' && progress < 50 ? 'rgba(236, 72, 153, 0.1)' : 'rgba(16, 185, 129, 0.1)'} />
+                  <circle r="6" fill={currentPhase === 'to-pickup' && progress < 50 ? '#EC4899' : '#10B981'} stroke="#fff" strokeOpacity="0.5" strokeWidth="2" filter="url(#glow)" />
+                  <g transform="translate(0, 25)">
+                    <rect x="-35" y="-8" width="70" height="16" rx="8" fill="rgba(0,0,0,0.6)" stroke={currentPhase === 'to-pickup' && progress < 50 ? '#EC4899' : '#10B981'} strokeOpacity="0.4" />
+                    <text textAnchor="middle" dy="4" fill="#fff" fontSize="9" fontFamily="monospace" fontWeight="black" letterSpacing="1">PICKUP</text>
+                  </g>
+                </g>
 
-                {/* Drone marker positioned by SVG path */}
+                {/* DROP */}
+                <g transform="translate(350, 150)">
+                  <circle r="12" fill={order.status === 'delivered' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(236, 72, 153, 0.1)'} />
+                  <circle r="6" fill={order.status === 'delivered' ? '#10B981' : '#EC4899'} stroke="#fff" strokeOpacity="0.5" strokeWidth="2" filter="url(#glow)" />
+                  <g transform="translate(0, 25)">
+                    <rect x="-30" y="-8" width="60" height="16" rx="8" fill="rgba(0,0,0,0.6)" stroke={order.status === 'delivered' ? '#10B981' : '#EC4899'} strokeOpacity="0.4" />
+                    <text textAnchor="middle" dy="4" fill="#fff" fontSize="9" fontFamily="monospace" fontWeight="black" letterSpacing="1">DROP</text>
+                  </g>
+                </g>
+
+                {/* Drone marker with pulsating beacon */}
                 <g className="transition-all duration-1000 ease-in-out" transform={`translate(${planePoint.x}, ${planePoint.y})`}>
-                  <circle r="16" fill="rgba(255,255,255,0.03)" />
-                  <circle r="9" fill="#0A74DA" stroke="#ffffff" strokeOpacity="0.08" />
-                  <text x="0" y="24" textAnchor="middle" fontSize="9" fill="#E6EEF8" fontFamily="monospace">{order.status === 'delivered' ? 'Delivered' : order.status === 'picked-up' ? 'Arrived @ Pickup' : `${Math.round(telemetry.speed)} km/h`}</text>
+                  <circle r="20" fill="rgba(59, 130, 246, 0.1)" className="animate-pulse" />
+                  <circle r="12" fill="rgba(59, 130, 246, 0.2)" />
+                  <circle r="6" fill="#3b82f6" stroke="#fff" strokeWidth="2" filter="url(#glow)" />
+
+                  {/* Status Capsule */}
+                  <g transform="translate(0, -22)">
+                    <rect x="-45" y="-9" width="90" height="18" rx="9" fill="rgba(59, 130, 246, 0.9)" className="shadow-lg" />
+                    <text textAnchor="middle" dy="4" fontSize="8" fill="#fff" fontFamily="monospace" fontWeight="bold">
+                      {order.status === 'delivered' ? 'ARRIVED' : order.status === 'picked-up' ? 'LOADING...' : `${Math.round(telemetry.speed)} KM/H`}
+                    </text>
+                  </g>
                 </g>
               </svg>
 
@@ -469,22 +514,23 @@ const TrackPackage: React.FC = () => {
 
           {/* Pilot Info */}
           {order.status !== 'pending' && (
-            <div className="bg-gradient-to-r from-brand-dark/80 via-blue-900/40 to-cyan-900/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-lg border border-white/10 hover:border-white/20 transition-all group">
-              <div className="flex items-center gap-3 sm:gap-4">
+            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 rounded-[24px] sm:rounded-[32px] p-5 sm:p-6 text-white shadow-2xl border border-white/10 hover:border-white/20 transition-all group overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl -mr-16 -mt-16 rounded-full"></div>
+              <div className="flex items-center gap-4 sm:gap-5 relative z-10">
                 <div className="relative flex-shrink-0">
-                  <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(order.ownerName || 'Drone Pilot')}&background=3b82f6&color=fff`} className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-white/40 group-hover:border-white/50 transition-colors shadow-lg shadow-blue-500/30" alt="Pilot" />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 sm:w-4 sm:h-4 bg-emerald-500 border-2 border-brand-dark rounded-full shadow-lg shadow-emerald-500/50 animate-pulse"></div>
+                  <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(order.ownerName || 'Drone Pilot')}&background=3b82f6&color=fff`} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-white/20 group-hover:border-blue-400/50 transition-colors shadow-lg shadow-blue-500/20" alt="Pilot" />
+                  <div className="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-slate-900 rounded-full shadow-lg animate-pulse"></div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-bold text-base sm:text-lg group-hover:text-blue-200 transition-colors truncate">
-                    {order.ownerName ? `Capt. ${order.ownerName}` : (order.status === 'delivered' ? 'Mission Completed' : 'Awaiting Assignment')}
+                  <div className="font-black text-lg sm:text-xl group-hover:text-blue-300 transition-colors truncate tracking-tight uppercase">
+                    {order.ownerName ? `CAPTAIN ${order.ownerName.split(' ')[0]}` : (order.status === 'delivered' ? 'MISSION COMPLETED' : 'AWAITING ASSIGNMENT')}
                   </div>
-                  <div className="text-blue-200 text-xs sm:text-sm truncate">
-                    {order.ownerName ? 'Pro Pilot • ⭐ Flights' : (order.status === 'delivered' ? 'Package Delivered' : 'Pending Acceptance')}
+                  <div className="text-blue-400 text-[10px] sm:text-xs truncate font-bold tracking-[0.15em] uppercase mt-1">
+                    {order.ownerName ? 'ELITE DRONE PILOT • GRADE A' : (order.status === 'delivered' ? 'PACKAGE SECURED' : 'PENDING ACCEPTANCE')}
                   </div>
                 </div>
-                <Link to="/contact" state={{ orderId: order.id }} className="w-9 h-9 sm:w-10 sm:h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all transform hover:scale-110 text-blue-300 hover:text-blue-200 flex-shrink-0">
-                  <i className="fas fa-comment-dots text-sm sm:text-base"></i>
+                <Link to="/contact" state={{ orderId: order.id }} className="w-12 h-12 bg-white/5 hover:bg-blue-500/20 rounded-2xl flex items-center justify-center transition-all transform hover:scale-105 border border-white/10 text-blue-400 group-hover:text-blue-200">
+                  <i className="fas fa-comment-dots text-lg"></i>
                 </Link>
               </div>
             </div>
