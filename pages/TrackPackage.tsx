@@ -451,68 +451,89 @@ const TrackPackage: React.FC = () => {
             </div>
           </div>
 
-          {/* New Timeline - Better Design */}
-          <div className="glass-card rounded-xl sm:rounded-2xl border border-white/20 p-4 sm:p-6 hover:border-white/40 transition-all">
-            <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              <div className="w-1 h-5 sm:h-6 bg-gradient-to-b from-emerald-500 to-green-500 rounded-full"></div>
-              <h3 className="text-base sm:text-lg font-bold text-white">Status Timeline</h3>
+          {/* Premium Status Timeline */}
+          <div className="glass-card rounded-2xl sm:rounded-[32px] border border-white/10 p-6 sm:p-8 hover:border-white/20 transition-all bg-slate-900/20 backdrop-blur-xl group overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/5 blur-[100px] -mr-20 -mt-20 rounded-full animate-pulse-slow"></div>
+
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-1.5 h-6 bg-gradient-to-b from-emerald-400 to-green-600 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.5)]"></div>
+              <h3 className="text-lg font-black text-white tracking-widest uppercase italic">Mission Timeline</h3>
             </div>
 
             <div className="relative">
-              {/* Vertical Line Background */}
-              <div className="absolute top-3 bottom-3 sm:top-4 sm:bottom-4 left-5 sm:left-6 w-0.5 bg-gradient-to-b from-white/30 via-white/10 to-transparent"></div>
+              {/* Glowing Vertical Connector */}
+              <div className="absolute top-6 bottom-6 left-6 sm:left-7 w-[2px] bg-gradient-to-b from-emerald-500/50 via-blue-500/30 to-slate-800 shadow-[0_0_8px_rgba(59,130,246,0.2)]"></div>
 
               {/* Timeline Items */}
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-8 sm:space-y-10">
 
-                {/* Item 1 */}
-                <div className="relative flex items-start gap-3 sm:gap-4 group">
-                  <div className="z-10 flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center border-2 sm:border-4 border-brand-dark shadow-lg shadow-emerald-500/50">
-                    <i className="fas fa-check text-white text-sm sm:text-lg"></i>
+                {/* Step 1: CONFIRMED */}
+                <div className="relative flex items-start gap-5 group/item">
+                  <div className="z-10 flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)] group-hover/item:shadow-[0_0_25px_rgba(16,185,129,0.2)] transition-all">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center shadow-inner">
+                      <i className="fas fa-check text-white text-sm"></i>
+                    </div>
                   </div>
-                  <div className="pt-1.5 sm:pt-2 flex-1 min-w-0">
-                    <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Order Confirmed</h4>
-                    <p className="text-[10px] sm:text-xs text-gray-300 mt-0.5 sm:mt-1">Order received successfully</p>
-                    <span className="text-[9px] sm:text-[10px] text-gray-500 font-mono block mt-1.5 sm:mt-2">{safeTime(order.date)}</span>
+                  <div className="pt-2 flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <h4 className="text-sm font-black text-white italic uppercase tracking-tighter">Order Confirmed</h4>
+                      <div className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-[9px] font-mono text-gray-400 uppercase">{safeTime(order.date)}</div>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1 font-medium tracking-tight">Logistic sequence initiated successfully.</p>
                   </div>
                 </div>
 
-                {/* Item 2 */}
-                <div className="relative flex items-start gap-3 sm:gap-4 group">
-                  <div className={`z-10 flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 sm:border-4 border-brand-dark shadow-lg transition-all ${order.status !== 'pending' ? 'bg-gradient-to-br from-blue-500 to-cyan-600 text-white shadow-blue-500/50' : 'bg-gray-700/50 text-gray-500'}`}>
-                    <i className="fas fa-user-astronaut text-sm sm:text-lg"></i>
+                {/* Step 2: PILOT ASSIGNED */}
+                <div className="relative flex items-start gap-5 group/item">
+                  <div className={`z-10 flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center border transition-all ${order.status !== 'pending' ? 'bg-blue-500/10 border-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.1)]' : 'bg-slate-800/50 border-white/5'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-inner ${order.status !== 'pending' ? 'bg-gradient-to-br from-cyan-400 to-blue-600' : 'bg-slate-700'}`}>
+                      <i className={`fas fa-user-astronaut text-sm ${order.status !== 'pending' ? 'text-white' : 'text-slate-500'}`}></i>
+                    </div>
                   </div>
-                  <div className="pt-1.5 sm:pt-2 flex-1 min-w-0">
-                    <h4 className={`text-xs sm:text-sm font-bold transition-colors ${order.status !== 'pending' ? 'text-white group-hover:text-blue-300' : 'text-gray-500'}`}>Pilot Assigned</h4>
-                    <p className="text-[10px] sm:text-xs text-gray-300 mt-0.5 sm:mt-1">Captain assigned to mission</p>
+                  <div className="pt-2 flex-1 min-w-0">
+                    <h4 className={`text-sm font-black italic uppercase tracking-tighter transition-colors ${order.status !== 'pending' ? 'text-white' : 'text-slate-500'}`}>Pilot Assigned</h4>
+                    <p className={`text-xs mt-1 font-medium tracking-tight ${order.status !== 'pending' ? 'text-gray-400' : 'text-slate-600'}`}>Elite captain synchronized for this mission.</p>
                   </div>
                 </div>
 
-                {/* Item 3 */}
-                <div className="relative flex items-start gap-3 sm:gap-4 group">
-                  <div className={`z-10 flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 sm:border-4 border-brand-dark shadow-lg transition-all ${(order.status === 'in-transit' || order.status === 'picked-up') ? 'bg-gradient-to-br from-brand-blue to-cyan-500 text-white animate-pulse shadow-blue-500/50 ring-2 ring-blue-400/50' :
-                    order.status === 'delivered' ? 'bg-gradient-to-br from-emerald-500 to-green-600 text-white shadow-emerald-500/50' : 'bg-gray-700/50 text-gray-500'
-                    }`}>
-                    <i className="fas fa-paper-plane text-sm sm:text-lg"></i>
+                {/* Step 3: PICKED UP */}
+                <div className="relative flex items-start gap-5 group/item">
+                  <div className={`z-10 flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center border transition-all ${order.status === 'picked-up' || order.status === 'delivered' ? 'bg-emerald-500/10 border-emerald-500/30 shadow-[0_0_20px_rgba(52,211,153,0.1)]' : order.status === 'in-transit' ? 'bg-blue-500/10 border-blue-500/30 animate-pulse shadow-[0_0_25px_rgba(59,130,246,0.2)]' : 'bg-slate-800/50 border-white/5'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-inner ${order.status === 'picked-up' || order.status === 'delivered' ? 'bg-gradient-to-br from-emerald-400 to-green-600' : order.status === 'in-transit' ? 'bg-gradient-to-br from-cyan-400 to-blue-600' : 'bg-slate-700'}`}>
+                      <i className={`fas fa-box-open text-sm ${order.status !== 'pending' ? 'text-white' : 'text-slate-500'}`}></i>
+                    </div>
                   </div>
-                  <div className="pt-1.5 sm:pt-2 flex-1 min-w-0">
-                    <h4 className={`text-xs sm:text-sm font-bold transition-colors ${order.status === 'in-transit' || order.status === 'picked-up' || order.status === 'delivered' ? 'text-white group-hover:text-cyan-300' : 'text-gray-500'}`}>
-                      {order.status === 'picked-up' ? 'Arrived at Pickup' : 'In Transit'}
-                    </h4>
-                    <p className="text-[10px] sm:text-xs text-gray-300 mt-0.5 sm:mt-1">
-                      {order.status === 'picked-up' ? 'Package is being loaded' : 'Package is flying to destination'}
+                  <div className="pt-2 flex-1 min-w-0">
+                    <h4 className={`text-sm font-black italic uppercase tracking-tighter transition-colors ${order.status === 'picked-up' || order.status === 'delivered' || order.status === 'in-transit' ? 'text-white' : 'text-slate-500'}`}>Package Secured</h4>
+                    <p className={`text-xs mt-1 font-medium tracking-tight ${order.status === 'picked-up' || order.status === 'delivered' || order.status === 'in-transit' ? 'text-gray-400' : 'text-slate-600'}`}>
+                      {order.status === 'picked-up' || order.status === 'delivered' ? 'Package loaded and confirmed.' : 'Drone navigating to warehouse.'}
                     </p>
                   </div>
                 </div>
 
-                {/* Item 4 */}
-                <div className="relative flex items-start gap-3 sm:gap-4 group">
-                  <div className={`z-10 flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-2 sm:border-4 border-brand-dark shadow-lg transition-all ${order.status === 'delivered' ? 'bg-gradient-to-br from-emerald-500 to-green-600 text-white shadow-emerald-500/50' : 'bg-gray-700/50 text-gray-500'}`}>
-                    <i className="fas fa-home text-sm sm:text-lg"></i>
+                {/* Step 4: IN TRANSIT */}
+                <div className="relative flex items-start gap-5 group/item">
+                  <div className={`z-10 flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center border transition-all ${order.status === 'delivered' ? 'bg-emerald-500/10 border-emerald-500/30' : order.status === 'picked-up' ? 'bg-blue-500/10 border-blue-500/30 animate-pulse-slow' : 'bg-slate-800/50 border-white/5'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-inner ${order.status === 'delivered' ? 'bg-gradient-to-br from-emerald-400 to-green-600' : order.status === 'picked-up' ? 'bg-gradient-to-br from-cyan-400 to-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.3)]' : 'bg-slate-700'}`}>
+                      <i className={`fas fa-paper-plane text-sm ${order.status === 'picked-up' || order.status === 'delivered' ? 'text-white' : 'text-slate-500'}`}></i>
+                    </div>
                   </div>
-                  <div className="pt-1.5 sm:pt-2 flex-1 min-w-0">
-                    <h4 className={`text-xs sm:text-sm font-bold transition-colors ${order.status === 'delivered' ? 'text-white group-hover:text-emerald-300' : 'text-gray-500'}`}>Delivered</h4>
-                    <p className="text-[10px] sm:text-xs text-gray-300 mt-0.5 sm:mt-1">Package arrived safely</p>
+                  <div className="pt-2 flex-1 min-w-0">
+                    <h4 className={`text-sm font-black italic uppercase tracking-tighter transition-colors ${order.status === 'picked-up' || order.status === 'delivered' ? 'text-white' : 'text-slate-500'}`}>Global Transit</h4>
+                    <p className={`text-xs mt-1 font-medium tracking-tight ${order.status === 'picked-up' || order.status === 'delivered' ? 'text-gray-400' : 'text-slate-600'}`}>Cruising to delivery coordinates.</p>
+                  </div>
+                </div>
+
+                {/* Step 5: DELIVERED */}
+                <div className="relative flex items-start gap-5 group/item">
+                  <div className={`z-10 flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center border transition-all ${order.status === 'delivered' ? 'bg-emerald-500/10 border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.3)]' : 'bg-slate-800/50 border-white/5'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-inner ${order.status === 'delivered' ? 'bg-gradient-to-br from-emerald-400 to-green-600' : 'bg-slate-700'}`}>
+                      <i className={`fas fa-home text-sm ${order.status === 'delivered' ? 'text-white' : 'text-slate-500'}`}></i>
+                    </div>
+                  </div>
+                  <div className="pt-2 flex-1 min-w-0">
+                    <h4 className={`text-sm font-black italic uppercase tracking-tighter transition-colors ${order.status === 'delivered' ? 'text-white' : 'text-slate-500'}`}>Mission Success</h4>
+                    <p className={`text-xs mt-1 font-medium tracking-tight ${order.status === 'delivered' ? 'text-gray-400' : 'text-slate-600'}`}>Package safely established at base.</p>
                   </div>
                 </div>
 
