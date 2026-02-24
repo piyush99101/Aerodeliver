@@ -434,9 +434,8 @@ const TrackPackage: React.FC = () => {
               </div>
 
               <div className="mt-4 sm:mt-6 rounded-2xl sm:rounded-3xl p-3 sm:p-4 bg-gradient-to-br from-blue-600/30 via-blue-500/25 to-cyan-500/30 border border-white/15 shadow-inner shadow-blue-900/30">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <MetricPill icon="fa-road" label="Distance" value={order.distance ?? '12.4 km'} gradientFrom="from-indigo-500" gradientTo="to-indigo-600" />
-                  <MetricPill icon="fa-rupee-sign" label="Fee" value={order.fee ?? '—'} gradientFrom="from-amber-400" gradientTo="to-orange-500" />
                   <MetricPill icon="fa-box" label="Weight" value={order.weight ?? '0.8 kg'} gradientFrom="from-pink-500" gradientTo="to-fuchsia-600" />
                 </div>
               </div>

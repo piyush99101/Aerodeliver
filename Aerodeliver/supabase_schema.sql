@@ -15,7 +15,6 @@ create table orders (
   date text,
   weight numeric,
   distance text,
-  fee text,
   sender_name text,
   sender_phone text,
   recipient_name text,
