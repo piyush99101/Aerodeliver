@@ -3,48 +3,48 @@
 
   <!-- Main landing page -->
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/</loc>
+    <loc>https://aerodeliverdhule.netlify.app/</loc>
     <priority>1.00</priority>
   </url>
 
   <!-- Public pages -->
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/login</loc>
+    <loc>https://aerodeliverdhule.netlify.app/login</loc>
     <priority>0.90</priority>
   </url>
 
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/signup</loc>
+    <loc>https://aerodeliverdhule.netlify.app/signup</loc>
     <priority>0.90</priority>
   </url>
 
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/forgot-password</loc>
+    <loc>https://aerodeliverdhule.netlify.app/forgot-password</loc>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/reset-password</loc>
+    <loc>https://aerodeliverdhule.netlify.app/reset-password</loc>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/privacy</loc>
+    <loc>https://aerodeliverdhule.netlify.app/privacy</loc>
     <priority>0.70</priority>
   </url>
 
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/terms</loc>
+    <loc>https://aerodeliverdhule.netlify.app/terms</loc>
     <priority>0.70</priority>
   </url>
 
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/support</loc>
+    <loc>https://aerodeliverdhule.netlify.app/support</loc>
     <priority>0.70</priority>
   </url>
 
   <url>
-    <loc>https://aerodeliver-production.up.railway.app/contact</loc>
+    <loc>https://aerodeliverdhule.netlify.app/contact</loc>
     <priority>0.70</priority>
   </url>
 
